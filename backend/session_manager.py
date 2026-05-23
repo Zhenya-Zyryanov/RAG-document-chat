@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import uuid
-import pickle
 import re
-import json
 from dataclasses import dataclass, field
 from pathlib import Path
 from datetime import datetime
@@ -22,9 +20,9 @@ from rank_bm25 import BM25Okapi
 from nltk.stem.snowball import RussianStemmer
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from config import cfg
-from document_loader import load_document
-from embedder import encode_passages
+from backend.config import cfg
+from backend.document_loader import load_document
+from backend.embedder import encode_passages
 
 
 VECTOR_DIM = 768
@@ -111,7 +109,7 @@ def _str_to_uuid_int(s) -> int:
 
 
 
-def create_session(name: str) -> str:
+def create_session(name: str) -> SessionInfo:
     session_id = str(uuid.uuid4())
     qdrant = get_qdrant()
 
@@ -131,7 +129,7 @@ def create_session(name: str) -> str:
     _bm25_cache[session_id] = {"bm25": None, "chunks": []}
 
     print(f"[session] Создана сессия '{name}' ({session_id})")
-    return session_id
+    return info   # вместо return session_id
 
 
 def delete_session(session_id: str):

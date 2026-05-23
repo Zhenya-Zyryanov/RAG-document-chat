@@ -1,7 +1,7 @@
 from __future__ import annotations
 from sentence_transformers import SentenceTransformer
 import numpy as np
-from config import cfg
+from backend.config import cfg
 
 
 _model: SentenceTransformer | None = None
