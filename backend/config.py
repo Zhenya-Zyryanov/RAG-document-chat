@@ -7,8 +7,8 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 class Config:
     # LLM
-    LLM_BASE_URL: str = os.getenv("LLM_BASE_URL", "")
-    LLM_API_KEY: str = os.getenv("LLM_API_KEY", "")
+    LLM_BASE_URL: str = os.getenv("LLM_BASE_URL", "https://litellm.happyhub.ovh/v1")
+    LLM_API_KEY: str = os.getenv("LLM_API_KEY", "sk-bhvXTbqF959YWxmxTFnbMA")
     MODEL_NAME: str = os.getenv("MODEL_NAME", "gpt-oss-120b")
 
     # Embeddings

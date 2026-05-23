@@ -8,9 +8,7 @@ if str(ROOT) not in sys.path:
 
 os.environ.setdefault("PYTHONPATH", str(ROOT))
 
-from embedder import get_embedder
-from api import app
-
+from backend.embedder import get_embedder
 
 get_embedder()
 

@@ -11,8 +11,8 @@ import numpy as np
 from openai import OpenAI
 from nltk.stem.snowball import RussianStemmer
 
-from config import cfg
-from embedder import encode_query
+from backend.config import cfg
+from backend.embedder import encode_query
 from session_manager import SessionContext, get_session_context
 
 

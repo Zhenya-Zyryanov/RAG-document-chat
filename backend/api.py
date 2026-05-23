@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(__file__))
+
 import shutil
 import tempfile
 from pathlib import Path
@@ -8,7 +13,7 @@ from fastapi import FastAPI, HTTPException, UploadFile, File
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-
+from fastapi.middleware.cors import CORSMiddleware
 from session_manager import create_session, delete_session, list_sessions, add_document, get_qdrant, remove_document
 from session_manager import META_COLLECTION, _ensure_meta_collection
 from rag_pipeline import rag_pipeline
@@ -17,6 +22,15 @@ app = FastAPI(
     title="API like NotebookLM",
     description="Local RAG over uploaded documents. Session-based.",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 class CreateSessionRequest(BaseModel):
@@ -58,8 +72,13 @@ def get_sessions():
 def post_session(body: CreateSessionRequest):
     if not body.name.strip():
         raise HTTPException(status_code=422, detail="Название сессии не может быть пустым")
-    session_id = create_session(body.name.strip())
-    return {"session_id": session_id, "name": body.name}
+    session_info = create_session(body.name.strip())
+    return {
+        "session_id": session_info.session_id,
+        "name": session_info.name,
+        "created_at": session_info.created_at,
+        "documents": session_info.documents,
+    }
 
 
 @app.delete("/sessions/{session_id}", tags=["sessions"])

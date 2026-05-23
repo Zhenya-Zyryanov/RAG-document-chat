@@ -36,7 +36,7 @@ def _load_pdf(path: Path) -> str:
     try:
         import pdfplumber
     except ImportError:
-        raise ImportError("Установи pdfplumber: pip install pdfplumber")
+        raise ImportError("pdfplumber: pip install pdfplumber")
 
     pages = []
     with pdfplumber.open(str(path)) as pdf:
