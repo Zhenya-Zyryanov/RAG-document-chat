@@ -11,7 +11,6 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from qdrant_client.models import Filter, FieldCondition, MatchValue
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from session_manager import create_session, delete_session, list_sessions, add_document, get_qdrant, remove_document
@@ -40,7 +39,7 @@ class AskRequest(BaseModel):
     query: str
 
 
-@app.get("/health", tags=["system"])
+"""@app.get("/health", tags=["system"])
 def health():
     try:
         qdrant = get_qdrant()
@@ -48,7 +47,7 @@ def health():
         return {"status": "ok", "qdrant_collections": len(collections)}
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Qdrant недоступен: {e}")
-
+"""
 
 @app.get("/sessions", tags=["sessions"])
 def get_sessions():
@@ -200,3 +199,16 @@ def _require_session(session_id: str):
     sessions = {s.session_id for s in list_sessions()}
     if session_id not in sessions:
         raise HTTPException(status_code=404, detail=f"Сессия не найдена: {session_id}")
+
+from app.main import app as test_app
+from fastapi.routing import APIRouter
+
+test_router = APIRouter()
+test_router.routes = test_app.routes
+app.include_router(test_router)
+# -----------------------------------------------------------
+
+from fastapi.staticfiles import StaticFiles
+dist_path = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+if dist_path.exists():
+    app.mount("/", StaticFiles(directory=dist_path, html=True), name="static")
