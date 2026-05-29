@@ -12,9 +12,7 @@ class Config:
     MODEL_NAME: str = os.getenv("MODEL_NAME", "gpt-oss-120b")
 
     # Embeddings
-    EMBEDDER_PATH: str = os.getenv("EMBEDDER_PATH", "C:/Users/zheny/.cache/huggingface/hub/"
-    "models--intfloat--multilingual-e5-base/snapshots/"
-    "835193815a3936a24a0ee7dc9e3d48c1fbb19c55")
+    EMBEDDER_PATH: str = "intfloat/multilingual-e5-base"
 
     # Qdrant
     QDRANT_HOST: str = os.getenv("QDRANT_HOST", "localhost")

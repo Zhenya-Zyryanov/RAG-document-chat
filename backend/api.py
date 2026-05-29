@@ -25,7 +25,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["http://localhost:6767", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -56,11 +56,11 @@ def get_sessions():
         "count": len(sessions),
         "sessions": [
             {
-                "session_id":  s.session_id,
-                "name":        s.name,
-                "created_at":  s.created_at,
-                "documents":   s.documents,
-                "doc_count":   len(s.documents),
+                "session_id": s.session_id,
+                "name": s.name,
+                "created_at": s.created_at,
+                "documents": s.documents,
+                "doc_count": len(s.documents),
             }
             for s in sessions
         ],

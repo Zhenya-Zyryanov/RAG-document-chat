@@ -1,8 +1,3 @@
-"""
-rag_pipeline.py — Hybrid BM25 + E5 RAG с RRF fusion.
-Без Langfuse, без LiteLLM — чистый OpenAI клиент.
-"""
-
 from __future__ import annotations
 
 import re
@@ -93,7 +88,7 @@ def rag_pipeline(query: str, session_id: str) -> dict:
     response = llm.chat.completions.create(
         model=cfg.MODEL_NAME,
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.2,
+        temperature=0.1,
     )
     llm_ms = round((time.perf_counter() - t1) * 1000)
 

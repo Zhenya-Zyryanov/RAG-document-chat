@@ -11,7 +11,7 @@ def get_embedder() -> SentenceTransformer:
     global _model
     if _model is None:
         print(f"[embedder] Загрузка модели: {cfg.EMBEDDER_PATH}")
-        _model = SentenceTransformer("intfloat/multilingual-e5-base")
+        _model = SentenceTransformer(cfg.EMBEDDER_PATH)
         print("[embedder] Готово.")
     return _model
 
